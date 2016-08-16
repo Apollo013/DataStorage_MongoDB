@@ -1,0 +1,206 @@
+﻿
+        public DbContext(MongoClientSettings settings, string dbName)
+        {
+            // Defense
+            if (settings == null)
+            {
+                throw new ArgumentNullException("Client settings must be provided");
+            }
+            if (string.IsNullOrWhiteSpace(dbName))
+            {
+                throw new ArgumentNullException("Database name must be provided");
+            }
+
+            var client = new MongoClient(settings);
+            Database = client.GetDatabase(dbName);
+        }
+
+
+============================================================================================================================
+============================================================================================================================
+
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+
+namespace Models.Abstract
+{
+    /// <summary>
+    /// Generic mongo entity interface
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    public interface IEntity<TKey>
+    {
+        /// <summary>
+        /// Gets or sets the Id for the entity
+        /// </summary>
+        [BsonId]
+        TKey Id { get; set; }
+
+        /// <summary>
+        /// Gets a new Id for the entity (if <TKey> Id is null)</TKey>
+        /// </summary>
+        [BsonIgnore]
+        ObjectId ObjectId { get; }
+
+        /// <summary>
+        /// Gets the date the entity was created on (abstracted from ObjectId)
+        /// </summary>
+        [BsonIgnore]
+        DateTime CreatedOn { get; }
+
+        /// <summary>
+        /// Gets or sets the date the entity was last modified
+        /// </summary>
+        [BsonIgnore]
+        DateTime ModifiedOn { get; set; }
+    }
+
+    /// <summary>
+    /// Mongo entity interface that uses a string type for the Id
+    /// </summary>
+    public interface IEntity : IEntity<string>
+    { }
+}
+
+============================================================================================================================
+============================================================================================================================
+
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+
+namespace Models.Abstract
+{
+    /// <summary>
+    /// Base class for mongo entities
+    /// </summary>
+    public class Entity : IEntity
+    {
+        [BsonIgnore]
+        public DateTime CreatedOn
+        {
+            get
+            {
+                return ObjectId.CreationTime;
+            }
+        }
+
+        [BsonElement(Order = 0)]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        [BsonIgnore]
+        [BsonRepresentation(BsonType.DateTime)]
+        public DateTime ModifiedOn { get; set; }
+
+        [BsonIgnore]
+        public ObjectId ObjectId
+        {
+            get
+            {
+                // Check first if ObjectId exists
+                if (string.IsNullOrEmpty(Id))
+                {
+                    Id = ObjectId.GenerateNewId().ToString();
+                }
+                return ObjectId.Parse(Id);
+            }
+        }
+    }
+}
+
+============================================================================================================================
+============================================================================================================================
+
+(Convert.ToBoolean(ConfigurationManager.AppSettings["PersistData"] ?? "false"))  
+            {
+                container.Register(Component.For(typeof(IRepository<,>)).ImplementedBy(typeof(MongoRepository<,>)).LifestyleTransient());    
+                MongoMappings.SetupMappings();
+            }
+            else
+            {
+                container.Register(Component.For(typeof(IRepository<,>)).ImplementedBy(typeof(MemoryRepository<,>)).LifestyleSingleton());    
+            }
+
+
+container.Register(  
+                Component.For<IMongoClient>().ImplementedBy<MongoClient>().LifestyleSingleton()
+                         .UsingFactoryMethod(() => new MongoClient("<ConnectionStringGoesHere>"))
+            );
+
+============================================================================================================================
+============================================================================================================================
+
+        [BsonElement("grades")]
+        public List<RestaurantGrade> Grades { get; set; }
+
+		        [BsonElement("address")]
+        //[BsonExtraElements]
+        public Address Address { get; set; }
+
+
+		public virtual T Update(T entity)
+        {
+            this.collection.Save<T>(entity);
+
+            return entity;
+        }
+
+        /// <summary>
+        /// Upserts the entities.
+        /// </summary>
+        /// <param name="entities">The entities to update.</param>
+        public virtual void Update(IEnumerable<T> entities)
+        {
+            foreach (T entity in entities)
+            {
+                this.collection.Save<T>(entity);
+            }
+        }
+
+        /// <summary>
+        /// Deletes an entity from the repository by its id.
+        /// </summary>
+        /// <param name="id">The entity's id.</param>
+        public virtual void Delete(TKey id)
+        {
+            if (typeof(T).IsSubclassOf(typeof(Entity)))
+            {
+                this.collection.Remove(Query.EQ("_id", new ObjectId(id as string)));
+            }
+            else
+            {
+                this.collection.Remove(Query.EQ("_id", BsonValue.Create(id)));
+            }
+        }
+
+        /// <summary>
+        /// Deletes an entity from the repository by its ObjectId.
+        /// </summary>
+        /// <param name="id">The ObjectId of the entity.</param>
+        public virtual void Delete(ObjectId id)
+        {
+            this.collection.Remove(Query.EQ("_id", id));
+        }
+
+        /// <summary>
+        /// Deletes the given entity.
+        /// </summary>
+        /// <param name="entity">The entity to delete.</param>
+        public virtual void Delete(T entity)
+        {
+            this.Delete(entity.Id);
+        }
+
+        /// <summary>
+        /// Deletes the entities matching the predicate.
+        /// </summary>
+        /// <param name="predicate">The expression.</param>
+        public virtual void Delete(Expression<Func<T, bool>> predicate)
+        {
+            foreach (T entity in this.collection.AsQueryable<T>().Where(predicate))
+            {
+                this.Delete(entity.Id);
+            }
+        }
