@@ -4,6 +4,9 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Extensions
 {
+    /// <summary>
+    /// Extension class for IFindFluent(T,T)
+    /// </summary>
     public static class FindFluentExtensions
     {
         /// <summary>

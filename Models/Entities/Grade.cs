@@ -4,6 +4,9 @@ using System;
 
 namespace Models.Entities
 {
+    /// <summary>
+    /// Restaurant Grades
+    /// </summary>
     public class RestaurantGrade
     {
         [BsonElement("date")]

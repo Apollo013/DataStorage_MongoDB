@@ -3,6 +3,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Models.Entities
 {
+    /// <summary>
+    /// Restaurant Address
+    /// </summary>
     [BsonNoId]
     public class Address
     {

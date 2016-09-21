@@ -6,6 +6,9 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Extensions
 {
+    /// <summary>
+    /// Extension class for IEnumerable<T>
+    /// </summary>
     public static class EnumerableExtensions
     {
         public static IEnumerable<T> Sort<T>(this IEnumerable<T> list, string orderBy)

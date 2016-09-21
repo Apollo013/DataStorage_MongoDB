@@ -88,9 +88,7 @@
     <Compile Include="TestModels\MegaRestaurant.cs" />
     <Compile Include="TestModels\RestaurantWithAttributeOverride.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AuthTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="OldeCode\TextFile1.txt" />
   </ItemGroup>

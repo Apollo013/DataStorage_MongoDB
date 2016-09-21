@@ -5,6 +5,9 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Extensions
 {
+    /// <summary>
+    /// Extension class for IQueryable<T>
+    /// </summary>
     public static class QueryableExtenstions
     {
         public static IQueryable<T> Sort<T>(this IQueryable<T> query, string orderBy)

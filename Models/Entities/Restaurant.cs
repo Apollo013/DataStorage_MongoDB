@@ -7,8 +7,6 @@ using System.Collections.Generic;
 namespace Models.Entities
 {
     [BsonIgnoreExtraElements]
-    //[DataContract]
-    //[BsonDiscriminator("restaurants")]
     [CollectionName("restaurants")]
     public class Restaurant : Document
     {
