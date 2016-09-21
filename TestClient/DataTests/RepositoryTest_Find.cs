@@ -6,6 +6,7 @@ using Models.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using static TestClient.Helpers.ExpectedValuesHelper;
 
 namespace TestClient.DataTests
 {
@@ -27,7 +28,7 @@ namespace TestClient.DataTests
             var restaurants = repo.Find(i => i.Borough.Equals("Manhattan")).ToList();
 
             // Assert
-            restaurants.Count.Should().Be(10259);
+            restaurants.Count.Should().Be(filteredManhattanCount);
 
             for (int i = 0; i < 10; i++)
             {
@@ -43,7 +44,7 @@ namespace TestClient.DataTests
             var restaurants = repo.Find(i => i.Borough.Equals("Manhattan"), (i => i.Name), true).ToList();
 
             // Assert
-            restaurants.Count.Should().Be(10259);
+            restaurants.Count.Should().Be(filteredManhattanCount);
 
             for (int i = 0; i < 10; i++)
             {
@@ -59,7 +60,7 @@ namespace TestClient.DataTests
             var restaurants = repo.Find(i => i.Borough.Equals("Manhattan"), (i => i.Name), false).ToList();
 
             // Assert
-            restaurants.Count.Should().Be(10259);
+            restaurants.Count.Should().Be(filteredManhattanCount);
 
             for (int i = 0; i < 10; i++)
             {
@@ -153,7 +154,7 @@ namespace TestClient.DataTests
             var restaurants = await repo.FindAsync(i => i.Borough.Equals("Manhattan"));
 
             // Assert
-            restaurants.AsQueryable().Count().Should().Be(10259);
+            restaurants.AsQueryable().Count().Should().Be(filteredManhattanCount);
 
             var count = 0;
             foreach (var res in restaurants)
@@ -172,7 +173,7 @@ namespace TestClient.DataTests
             var restaurants = await repo.FindAsync(i => i.Borough.Equals("Manhattan"), (i => i.Name), true);
 
             // Assert
-            restaurants.AsQueryable().Count().Should().Be(10259);
+            restaurants.AsQueryable().Count().Should().Be(filteredManhattanCount);
 
             var count = 0;
             foreach (var res in restaurants)
@@ -191,7 +192,7 @@ namespace TestClient.DataTests
             var restaurants = await repo.FindAsync(i => i.Borough.Equals("Manhattan"), (i => i.Name), false);
 
             // Assert
-            restaurants.AsQueryable().Count().Should().Be(10259);
+            restaurants.AsQueryable().Count().Should().Be(filteredManhattanCount);
 
             var count = 0;
             foreach (var res in restaurants)

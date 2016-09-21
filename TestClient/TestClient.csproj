@@ -95,21 +95,9 @@
     <Content Include="OldeCode\TextFile1.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Auth\Auth.csproj">
-      <Project>{9804ca74-4b4a-4138-a033-4392f29414bf}</Project>
-      <Name>Auth</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{203ae518-48f7-4d53-9ff6-8a0416a4c5d7}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
       <Project>{197b5ed6-264f-4071-8cfa-bbe302092295}</Project>
       <Name>DataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LogicLayer\LogicLayer.csproj">
-      <Project>{16bc1f31-bf4d-4777-9548-f890354288c6}</Project>
-      <Name>LogicLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{a2c9d5a1-5ed8-4da3-b72b-5daceb843df5}</Project>
