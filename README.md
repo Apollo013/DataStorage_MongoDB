@@ -20,7 +20,7 @@ Developed with Visual Studio 2015 Community
 |Feature|
 |-------|
 |Repository Pattern for MongoDB|
-|A 'CollectionName' attribute for entities that specifies the name of the collection|
+|A 'CollectionName' attribute for entities that specifies the name of the collection. Reflection is then used to retireve the name see 'GetCollectionName()' helper method within the 'MongoRepository' class|
 |Extension classes for IQueryable(T), IFindFluent(T,T) & IEnumerable(T)|
 |Numerous test units|
 
