@@ -1,4 +1,4 @@
-# MongoDB_WebApi2_AngularJS_Restaurants
+# MongoDB_Repository_Pattern
 A DotNet app that utilizes the repoitory pattern for accessing a MongoDB database.
 
 ---
