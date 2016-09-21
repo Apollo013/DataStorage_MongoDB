@@ -27,6 +27,7 @@ Developed with Visual Studio 2015 Community
 |'FilterDefinitionBuilder' - A type-safe API for building up both simple and complex MongoDB queries|
 |Numerous test units|
 
+---
 
 ###Resources
 |Title|Author|Website|
