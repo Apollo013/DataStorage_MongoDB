@@ -1,4 +1,5 @@
-# MongoDB_Repository_Pattern
+# DataStorage_MongoDB
+
 A DotNet app that utilizes the repository pattern for accessing a MongoDB database.
 
 ---
